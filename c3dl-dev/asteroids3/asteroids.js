@@ -12,7 +12,7 @@ var score=0;
 var timesincelastrock=0;
 var threshold=9000;
 var objs;
-var basevelocity=-0.055;
+var basevelocity=-0.00055;
 var basescale=0.6;
 var cam;
 var spot;
@@ -67,7 +67,7 @@ function canvasMain(canvasName){
   thing.setTexture("asteroid2.png");
   thing.scale([2,2,2]);
   thing.setPosition([0,0,-70]);
-  vel = c3dl.multiplyVector(c3dl.normalizeVector(thing.getPosition()),basevelocity-(Math.floor(Math.random()*3)*0.01));
+  vel = c3dl.multiplyVector(c3dl.normalizeVector(thing.getPosition()),basevelocity-(Math.floor(Math.random()*3)*0.0001));
   thing.setLinearVel(vel);
   objs[0] = [thing,1];
   scn.addObjectToScene(thing);
@@ -196,7 +196,7 @@ function update(time){
         z=-1*z;
       }	  
       thing.setPosition([x,0,z]);
-      var vel = c3dl.multiplyVector(c3dl.normalizeVector(thing.getPosition()),basevelocity+(Math.floor(Math.random()*3)*0.01));
+      var vel = c3dl.multiplyVector(c3dl.normalizeVector(thing.getPosition()),basevelocity+(Math.floor(Math.random()*3)*0.0001));
       thing.setLinearVel(vel);
       objs.push([thing,1]);
       scn.addObjectToScene(thing);
@@ -325,7 +325,7 @@ function handler(result){
                 thing.init("asteroid2.dae");
                 thing.setTexture("asteroid2.png");
                 thing.setPosition([pos[0]+pr[0],pos[1] + pr[1],pos[2]+pr[2]]);
-                vel = c3dl.multiplyVector(c3dl.normalizeVector(thing.getPosition()),basevelocity-(Math.floor(Math.random()*3)*0.01));
+                vel = c3dl.multiplyVector(c3dl.normalizeVector(thing.getPosition()),basevelocity-(Math.floor(Math.random()*3)*0.0001));
                 thing.setLinearVel(vel);
                 thing.scale([scale,scale,scale]);
                 objs.push([thing,scale*basescale]);
