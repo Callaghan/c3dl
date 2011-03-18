@@ -87,7 +87,7 @@ function effect_test(canvasName)
   teapots[2].init("models/teapot.dae");
   teapots[2].setTexture("models/images/texture.jpg");
   teapots[2].translate([0,20,0]);
-  teapots[2].setEffect(celIEffect);
+  //teapots[2].setEffect(celIEffect);
   scene.addObjectToScene(teapots[2]);
 
   // SOLID COLOR
@@ -115,7 +115,7 @@ function effect_test(canvasName)
   teapots.push(new c3dl.Collada());
   teapots[5].init("models/teapot.dae");
   teapots[5].translate([30,0,0]);
-  teapots[5].setEffect(goochEffect);
+  //teapots[5].setEffect(goochEffect);
   scene.addObjectToScene(teapots[5]);
 
   // VARYING
@@ -135,13 +135,13 @@ function effect_test(canvasName)
   teapots.push(new c3dl.Collada());
   teapots[7].init("models/teapot.dae");
   teapots[7].translate([30,-20,0]);
-  teapots[7].setEffect(goochEffect2);
+  //teapots[7].setEffect(goochEffect2);
   scene.addObjectToScene(teapots[7]);
 
   var plane = new c3dl.Collada();
   plane.init("models/fly_plane_tri.dae");
   plane.scale([2,2,2]);
-  plane.setEffect(celIEffect);
+  //plane.setEffect(celIEffect);
 
   var propNode = plane.getSceneGraph().findNode('prop');
   var planeNode = plane.getSceneGraph().findNode('plane');
