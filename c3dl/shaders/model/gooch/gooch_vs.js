@@ -27,7 +27,7 @@ c3dl.gooch_vs =
 
 	// ecPos = vertex in eye coordinate space.
 "	ecPos = vec3(modelViewMatrix * vec4(Vertex,1.0));" +
-"	tnorm = normalize(normalMatrix3x3 * Normal);" + 
+"	tnorm = normalize(normalMatrix3x3 * Normal);" +
 
 	// a normalized vector pointing from the vector to the light
 

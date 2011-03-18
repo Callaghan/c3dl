@@ -77,18 +77,18 @@ c3dl.gooch_fs =
 
 "	if(lightingOn == true)" +
 "	{" +
-"		for(int i = 0; appliedLight == false && i < C3DL_MAX_LIGHTS; i++) " +
+"		for (int i = 0; i < C3DL_MAX_LIGHTS; i++) " +
 "		{" +
-"			if( lights[i].isOn == true)" +
+"			if(appliedLight == false && lights[0].isOn == true)" +
 "			{" +
-"				if(lights[i].type == 1)" +
+"				if(lights[0].type == 1)" +
 "				{" +
-"					c3dl_goochDirLight(lights[i], nviewVec, ntnorm, NdotL, spec); "+
+"					c3dl_goochDirLight(lights[0], nviewVec, ntnorm, NdotL, spec); "+
 "					appliedLight = true;" +
 "				}" +
 "				else" +
 "				{" +
-"					c3dl_goochPointLight(lights[i], nviewVec, ntnorm, NdotL, spec); "+
+"					c3dl_goochPointLight(lights[0], nviewVec, ntnorm, NdotL, spec); "+
 "					appliedLight = true;" +
 "				}" +
 "			}" +

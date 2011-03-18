@@ -13,7 +13,6 @@ c3dl.gooch_callback = function (renderingObj)
   var geometry = renderingObj.getGeometry();
   var effect = geometry.getEffect();
   var programObjID = renderingObj.getProgramObjectID();
-
   gl.useProgram(programObjID);
 
   var modelViewMatrix = c3dl.peekMatrix();
@@ -62,18 +61,42 @@ c3dl.gooch_callback = function (renderingObj)
       // This is  a kludge for Safari and Chrome since they want these attributes
       ////////////////////////////
       var normalAttribLoc = gl.getAttribLocation(outlineProgID, "Normal");
-      if (normalAttribLoc != -1 && currColl.getNormals())
+      if (normalAttribLoc != c3dl.SHADER_VAR_NOT_FOUND && currColl.getNormals())
       {
-        renderer.setVertexAttribArray(outlineProgID, "Normal", 3, currColl.getVBONormals());
+        
+        //renderer.setVertexAttribArray(outlineProgID, "Normal", 3, currColl.getVBONormals());
+        gl.bindBuffer(gl.ARRAY_BUFFER, currColl.getVBONormals());
+        
+        gl.vertexAttribPointer(normalAttribLoc, 3, gl.FLOAT, false, 0, 0);
+        
+        gl.enableVertexAttribArray(normalAttribLoc);
+        
+      }
+      else {
+        gl.disableVertexAttribArray(normalAttribLoc);
       }
       var texAttribLoc = gl.getAttribLocation(outlineProgID, "Texture");
-      if (texAttribLoc != -1 && currColl.getTexCoords())
+      if (texAttribLoc != c3dl.SHADER_VAR_NOT_FOUND && currColl.getTexCoords())
       {
-        renderer.setVertexAttribArray(outlineProgID, "Texture", 2, currColl.getVBOTexCoords());
+        
+        //renderer.setVertexAttribArray(outlineProgID, "Texture", 2, currColl.getVBOTexCoords());
+        gl.bindBuffer(gl.ARRAY_BUFFER, currColl.getVBOTexCoords());
+        gl.vertexAttribPointer(texAttribLoc, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(texAttribLoc);
       }
       ////////////////////////// End kludge
-      renderer.setVertexAttribArray(outlineProgID, "Vertex", 3, currColl.getVBOVertices());
-
+      var vertexAttribLoc = gl.getAttribLocation(outlineProgID, "Vertex");
+      if(vertexAttribLoc != -1 && currColl.getVBOVertices()) {
+        
+        //renderer.setVertexAttribArray(outlineProgID, "Vertex", 3, currColl.getVBOVertices());
+        gl.bindBuffer(gl.ARRAY_BUFFER, currColl.getVBOVertices());
+        
+        gl.vertexAttribPointer(vertexAttribLoc, 3, gl.FLOAT, false, 0, 0);
+        
+        gl.enableVertexAttribArray(vertexAttribLoc);
+        
+      }
+      
       gl.viewport(1, -1, contextWidth, contextHeight);
       gl.drawArrays(renderer.getFillMode(), 0, currColl.getVertices().length / 3);
 
@@ -105,21 +128,28 @@ c3dl.gooch_callback = function (renderingObj)
     var dummyAttribLoc = gl.getAttribLocation(programObjID, "dummyAttrib");
     if (dummyAttribLoc !== -1 && currColl.getNormals())
     {
-      renderer.setVertexAttribArray(programObjID, "dummyAttrib", 3, currColl.getVBONormals());
+      
+      //renderer.setVertexAttribArray(programObjID, "dummyAttrib", 3, currColl.getVBONormals());
+      gl.bindBuffer(gl.ARRAY_BUFFER, currColl.getVBONormals());
+      gl.vertexAttribPointer(dummyAttribLoc, 3, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray(dummyAttribLoc);
     }
 
     var normalAttribLoc = gl.getAttribLocation(programObjID, "Normal");
 
     // if the object acutally has normals and the normal attribute was found
     //
-    if (normalAttribLoc !== -1 && currColl.getNormals())
+    if (normalAttribLoc != -1 && currColl.getNormals())
     {
       // the top matrix is the modelview matrix.
       var NormalMatrix = c3dl.inverseMatrix(modelViewMatrix);
       NormalMatrix = c3dl.transposeMatrix(NormalMatrix);
       renderer.setUniformMatrix(programObjID, "normalMatrix", NormalMatrix);
-
-      renderer.setVertexAttribArray(programObjID, "Normal", 3, currColl.getVBONormals());
+      
+      //renderer.setVertexAttribArray(programObjID, "Normal", 3, currColl.getVBONormals());
+      gl.bindBuffer(gl.ARRAY_BUFFER, currColl.getVBONormals());
+      gl.vertexAttribPointer(normalAttribLoc, 3, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray(normalAttribLoc);
     }
     else
     {
@@ -129,7 +159,15 @@ c3dl.gooch_callback = function (renderingObj)
     renderer.setUniformf(programObjID, "warmColor", effect.getParameter("warmColor"));
     renderer.setUniformf(programObjID, "coolColor", effect.getParameter("coolColor"));
     renderer.setUniformf(programObjID, "surfaceColor", effect.getParameter("surfaceColor"));
-    renderer.setVertexAttribArray(programObjID, "Vertex", 3, currColl.getVBOVertices());
-    gl.drawArrays(renderer.getFillMode(), 0, currColl.getVertices().length / 3);
+    //renderer.setVertexAttribArray(programObjID, "Vertex", 3, currColl.getVBOVertices());
+    var vertexAttribLoc = gl.getAttribLocation(outlineProgID, "Vertex");
+      if(vertexAttribLoc != -1 && currColl.getVBOVertices()) {
+        
+        //renderer.setVertexAttribArray(outlineProgID, "Vertex", 3, currColl.getVBOVertices());
+        gl.bindBuffer(gl.ARRAY_BUFFER, currColl.getVBOVertices());
+        gl.vertexAttribPointer(vertexAttribLoc, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(vertexAttribLoc);
+      }
+      gl.drawArrays(renderer.getFillMode(), 0, currColl.getVertices().length / 3);
   }
 }
