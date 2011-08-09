@@ -820,3 +820,34 @@ c3dl.Collada.prototype.centerObject = function () {
   c3dl.popMatrix();
   this.setDirty(true);
 }
+
+/**
+ Rotate the object so that its dir points at a specific point.
+ (No animation)
+ 
+ @param {Array} newPoint The new point the model will 
+ look at.
+ */
+c3dl.Collada.prototype.setLookAtPoint = function(newPoint)
+{
+    if (c3dl.isVectorEqual(this.pos, newPoint))
+    {
+        c3dl.debug.logWarning("Cannot lookAt [" + newPoint[0] + "," + newPoint[1] + "," + newPoint[2] + "] since " + this.name + " is at that location. Move " + this.name + " before calling setLookAt()");
+    }
+    else
+    {
+        var dir = c3dl.makeVector();
+        //get a normalized vector representing the direction from this to the desired lootAtPoint
+	dir = c3dl.normalizeVector(c3dl.subtractVectors(newPoint,this.getPosition(),dir));
+        //get the angle between the current direction and the desired direction.
+        var diff = c3dl.getAngleBetweenVectors(this.getDirection(),dir);
+        //if that is a valid difference and not tiny
+        if(diff != NaN && (diff < -c3dl.TOLERANCE || diff > c3dl.TOLERANCE)) {
+	  var radDiff = c3dl.degreesToRadians(diff);
+          //determine the axis to rotate around
+	  var ax = c3dl.vectorCrossProduct(this.getDirection(),dir,ax);
+          //rotate the object
+	  this.rotateOnAxis(ax,radDiff);
+	}
+    }
+}
