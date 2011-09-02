@@ -204,6 +204,42 @@ c3dl.Actor.prototype.setPosition = function (vecPos)
 }
 
 /**
+ Manually set the direction vectors (left, up and dir)of the Actor.  The three arguments must be vectors and must be orthoganal (all three are 90 degrees from each other).
+ 
+ @param {Array} vecLeft A vector defining the desired left axis for the Actor.
+ @param {Array} vecUp A vector defining the desired up axis for the Actor.
+ @param {Array} vecDir A vector defining the desired dir axis for the Actor.
+ 
+ @returns {boolean} true if the new vectors are being used, false if anything prevented this.
+ */
+c3dl.Actor.prototype.setDirectionVectors = function (vecLeft, vecUp, vecDir)
+{
+  var retval = false;
+  //if all three arguments are valid vectors
+  if(c3dl.isValidVector(vecLeft) && c3dl.isValidVector(vecUp) && c3dl.isValidVector(vecDir)) {
+    alert("are valid");
+    //get normalized versions of them
+    var normLeft = c3dl.normalizeVector(vecLeft);
+    var normUp = c3dl.normalizeVector(vecUp);
+    var normDir = c3dl.normalizeVector(vecDir);
+    //Get the cross product of left and up.
+    //if the vectors are orthogonal it should be equal to dir
+    var dest = c3dl.vectorCrossProduct(normLeft, normUp, dest);
+    //normalize that cross product
+    var normDest = c3dl.normalizeVector(dest);
+    //if the normalized copy of vecDir and the cross-product of the normalized vecLeft and vecUp are the same
+    //then the vectors are orthoganal, so use them
+    if(normDest == normDir) {
+      this.dir = normDir;
+      this.left = normLeft;
+      this.up = normUp;
+      retval = true;
+    }
+  }
+  return retval;
+}
+
+/**
  Move the object relative to where it is currently, not relative 
  to the origin.
  

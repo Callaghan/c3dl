@@ -23,6 +23,8 @@ function canvasMain(canvasName) {
     arrow.init("models/arrow.dae");
     arrow.setPosition(new Array(0.0, 0.0, 0));
     arrow.scale([0.1, 0.1, 0.1]);
+    var answer = arrow.setDirectionVectors([1,0,0],[0,1,0],[0,0,1]);
+    alert(answer);
     scn.addObjectToScene(arrow);
     
     //add a sphere to the scene
