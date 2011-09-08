@@ -217,7 +217,6 @@ c3dl.Actor.prototype.setDirectionVectors = function (vecLeft, vecUp, vecDir)
   var retval = false;
   //if all three arguments are valid vectors
   if(c3dl.isValidVector(vecLeft) && c3dl.isValidVector(vecUp) && c3dl.isValidVector(vecDir)) {
-    alert("are valid");
     //get normalized versions of them
     var normLeft = c3dl.normalizeVector(vecLeft);
     var normUp = c3dl.normalizeVector(vecUp);
@@ -229,7 +228,7 @@ c3dl.Actor.prototype.setDirectionVectors = function (vecLeft, vecUp, vecDir)
     var normDest = c3dl.normalizeVector(dest);
     //if the normalized copy of vecDir and the cross-product of the normalized vecLeft and vecUp are the same
     //then the vectors are orthoganal, so use them
-    if(normDest == normDir) {
+    if(c3dl.isVectorEqual(normDest,normDir)) {
       this.dir = normDir;
       this.left = normLeft;
       this.up = normUp;

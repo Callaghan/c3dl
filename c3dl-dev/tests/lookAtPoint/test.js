@@ -23,8 +23,8 @@ function canvasMain(canvasName) {
     arrow.init("models/arrow.dae");
     arrow.setPosition(new Array(0.0, 0.0, 0));
     arrow.scale([0.1, 0.1, 0.1]);
-    var answer = arrow.setDirectionVectors([1,0,0],[0,1,0],[0,0,1]);
-    alert(answer);
+    arrow.yaw(Math.PI/2);
+    arrow.setDirectionVectors([1,0,0],[0,1,0],[0,0,1]);
     scn.addObjectToScene(arrow);
     
     //add a sphere to the scene
@@ -67,7 +67,7 @@ function test(deltaTime) {
 }
 
 //when the user releases a key (between 0 and 8), point the arrow at a numbered object.
-function up() {
+function up(event) {
   switch(event.keyCode) {
     case 48: arrow.setLookAtPoint(obs[0].getPosition());
       tracking = true;
