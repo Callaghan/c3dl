@@ -135,7 +135,8 @@ c3dl.init = function ()
  */
 c3dl.addModel = function (model)
 {
-  c3dl.preloadModels.push(model);
+  var newModel = new c3dl.Model();
+  newModel.init(model);
 }
 
 /**
@@ -163,7 +164,23 @@ c3dl.addMainCallBack = function (func, tagName)
 
 // This will make sure the c3dl.init() funciton is called once the web page
 // is done loading.
-if (document.addEventListener)
-{
+if (document.addEventListener) { 
   document.addEventListener("DOMContentLoaded", c3dl.init, false);
 }
+
+c3dl.PreLoader = {
+  progress: 0,
+  checkProgress: function () {
+    c3dl.PreLoader.progress = 0;
+    var counter = 0;
+    for (var i = 0; i < c3dl.ModelManager.values.length; i++) {
+      c3dl.PreLoader.progress+=c3dl.ModelManager.values[i].progress;
+    }
+    c3dl.PreLoader.progress = c3dl.PreLoader.progress/c3dl.ModelManager.values.length;
+    c3dl.PreLoader.callBack()
+    if (c3dl.PreLoader.progress == 100) { 
+      c3dl.init();
+    }
+  },
+  callBack: function () {}
+};
